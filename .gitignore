@@ -1,1 +1,4 @@
 **/node_modules
+python/voice-streaming/venv/**
+**/.DS_Store
+output.wav
