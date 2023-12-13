@@ -2,3 +2,4 @@
 python/voice-streaming/venv/**
 **/.DS_Store
 output.wav
+.vscode
