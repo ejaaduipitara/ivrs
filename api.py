@@ -4,8 +4,8 @@ api = Blueprint('api', __name__)
 
 @api.route('/upload')
 def upload():
-    return 'upload'
+    return '{"status": "success"}'
 
 @api.route('/refresh')
 def refresh():
-    return 'refresh'
+    return '{"status": "success"}'

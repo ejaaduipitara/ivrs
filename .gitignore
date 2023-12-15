@@ -1,8 +1,10 @@
 **/node_modules
-python/voice-streaming/venv/**
+venv/**
 **/.DS_Store
 output.wav
 .vscode
 **/__pycache__
-python/voice-streaming/temp_audio_files/**
-python/voice-streaming/temp_converted_files/**
+temp_audio_files/**
+temp_converted_files/**
+!temp_audio_files/.keep
+!temp_converted_files/.keep
