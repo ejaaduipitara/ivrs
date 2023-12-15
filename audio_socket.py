@@ -19,7 +19,7 @@ def send_audio(session_id, file_path, ws):
     
     downloader.urlretrieve(file_path, local_file_path)
 
-    subprocess.call(['ffmpeg', '-i', local_file_path, '-ar', '8000', '-ab', '128', local_converted_file_path])
+    subprocess.call(['ffmpeg', '-i', local_file_path, '-ar', '8000', '-ab', '128', '-y', local_converted_file_path])
 
     audio = AudioSegment.from_file(local_converted_file_path)
 
@@ -41,8 +41,8 @@ def send_audio(session_id, file_path, ws):
         })
         ws.send(chunk_str)
 
-    remove_temp_file(local_converted_file_path)
-    remove_temp_file(local_file_path)
+    # remove_temp_file(local_converted_file_path)
+    # remove_temp_file(local_file_path)
         
 def remove_temp_file(file_path):
     os.remove(file_path)
@@ -63,7 +63,7 @@ def echo(ws):
             print("inside dtmf")
             send_audio(request_payload['stream_sid'], "https://storage.googleapis.com/jugalbandi-poc/generic_qa/output_audio_files/audio-output-20231213-092540.mp3", ws)
             
-            mark_event = {"event":"mark","sequence_number": int(request_payload['sequence_number']) + 1,"stream_sid":request_payload['stream_sid'],"mark":{"name":"reply complete"}}
+            # mark_event = {"event":"mark","sequence_number": int(request_payload['sequence_number']) + 1,"stream_sid":request_payload['stream_sid'],"mark":{"name":"reply complete"}}
             # ws.send(json.dumps(mark_event))
         elif event == "stop":
             print("inside stop")

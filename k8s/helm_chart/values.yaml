@@ -1,0 +1,14 @@
+replicaCount: 1
+image:
+  repository: kumarks/djp-ivrs-bot
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: ivrs-bot-app
+  type: ClusterIP
+  port: 8000
+  targetPort: 8000
+
+ingress:
+  enabled: false
