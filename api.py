@@ -1,11 +1,11 @@
 from flask import Blueprint
 
+import requests
+
 api = Blueprint('api', __name__)
 
-@api.route('/upload')
-def upload():
-    return '{"status": "success"}'
+@api.route('/getTodayActivity')
+def getTodayActivity():
+    r = requests.get('https://api.companieshouse.gov.uk/company/**COMPANY NUMBER**/filing-history')
 
-@api.route('/refresh')
-def refresh():
     return '{"status": "success"}'
