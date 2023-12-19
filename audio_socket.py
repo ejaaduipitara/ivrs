@@ -22,7 +22,7 @@ def get_audio(input_selector):
     if input_selector > 2:
         return None
 
-    urlData = "https://sunbirddevbbpublic.blob.core.windows.net/jars/ivrs/ivrs_config.json?st=2023-12-18T06%3A03%3A54Z&se=2023-12-19T06%3A03%3A54Z&sp=rl&sv=2018-03-28&sr=b&sig=PBpT54uK5Voc5Fb3HLsRO3%2F7%2BSBpHZFC7Y2unDqSFPY%3D"
+    urlData = os.environ['IVRS_CONFIG_URL']
     webURL = downloader.urlopen(urlData)
     data = webURL.read()
     encoding = webURL.info().get_content_charset('utf-8')
@@ -81,6 +81,9 @@ def get_chunks(input_selector, file_path):
         })
 
     AUDIO_CACHE[cache_key] = {'cached_on': day_of_year, 'chunks': chunks_array}
+
+    remove_temp_file(local_file_path)
+    remove_temp_file(local_converted_file_path)
 
     return chunks_array
 
