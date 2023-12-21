@@ -92,9 +92,8 @@ def get_chunks(input_selector, language, file_path):
 def remove_temp_file(file_path):
     os.remove(file_path)
 
-@audio_socket.route('/media')
-def echo(ws):
-    language = ''
+@audio_socket.route('/media/<path:language>')
+def echo(ws, language):
     telemetry = None
     while not ws.closed:
         message = ws.receive()
@@ -111,12 +110,6 @@ def echo(ws):
             # chunk = get_payload(request)
             pass
         elif event == 'dtmf':
-            url_params = parse_qs(ws.environ['QUERY_STRING'])
-            if "language" in url_params:
-                language = url_params["language"][0].lower()
-            else:
-                continue
-
             session_id = request_payload['stream_sid']
             print("inside dtmf")
             # clear the existing audio events if it's playing already
