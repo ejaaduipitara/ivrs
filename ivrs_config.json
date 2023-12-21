@@ -1,11 +1,22 @@
 {
-  "story":[
-    "https://sunbird.org/story.mp3"
+  "story:english":[
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/English/Fur-Feather-Africa.mp3",
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/English/Windswept.mp3"
   ],
-  "rhyme":[
-    "https://sunbird.org/rhyme.mp3"
+  "rhyme:english":[
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/rhyme/English/rabbit.m4a"
   ],
-  "riddle":[
-    "https://sunbird.org/riddle.mp3"
+  "riddle:english":[
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/riddle/riddle.mp3"
+  ],
+  "story:hindi":[
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/English/Fur-Feather-Africa.mp3",
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/English/Windswept.mp3"
+  ],
+  "rhyme:hindi":[
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/rhyme/English/rabbit.m4a"
+  ],
+  "riddle:hindi":[
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/riddle/riddle.mp3"
   ]
 }
