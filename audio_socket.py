@@ -92,6 +92,10 @@ def get_chunks(input_selector, language, file_path):
 def remove_temp_file(file_path):
     os.remove(file_path)
 
+def push_telemetry_events(telemetry):
+    telemetry.end()
+    telemetry.push()
+
 @audio_socket.route('/media/<path:language>')
 def echo(ws, language):
     telemetry = None
@@ -104,8 +108,8 @@ def echo(ws, language):
         event = request_payload['event']
 
         if event == 'start':
-            telemetry = Telemetry(request_payload['stream_sid'])
-            telemetry.start()
+            telemetry = Telemetry(request_payload['stream_sid'], request_payload['start']['from'])
+            telemetry.start(request_payload['start'])
         elif event == "media":
             # chunk = get_payload(request)
             pass
@@ -125,13 +129,15 @@ def echo(ws, language):
                 chunks = get_chunks(input_selector, language, audio_url)
                 for chunk in chunks:
                     chunk["stream_sid"] = session_id
-                    ws.send(json.dumps(chunk))
+                    try:
+                        ws.send(json.dumps(chunk))
+                    except:
+                        pass
             else:
                 pass
 
             # mark_event = {"event":"mark","sequence_number": int(request_payload['sequence_number']) + 1,"stream_sid":request_payload['stream_sid'],"mark":{"name":"reply complete"}}
             # ws.send(json.dumps(mark_event))
         elif event == "stop":
-            telemetry.end()
-            telemetry.push()
+            push_telemetry_events(telemetry)
             print("inside stop")
