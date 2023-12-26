@@ -9,6 +9,7 @@ import os
 import json
 import base64
 import subprocess
+import time
 
 from urllib import request as downloader
 from pathlib import Path
@@ -99,6 +100,7 @@ def push_telemetry_events(telemetry):
 @audio_socket.route('/media/<path:language>')
 def echo(ws, language):
     telemetry = None
+    is_audio_sent = False
     while not ws.closed:
         message = ws.receive()
         # print(message)
@@ -113,7 +115,7 @@ def echo(ws, language):
         elif event == "media":
             # chunk = get_payload(request)
             pass
-        elif event == 'dtmf':
+        elif event == 'dtmf' and not is_audio_sent:
             session_id = request_payload['stream_sid']
             print("inside dtmf")
             # clear the existing audio events if it's playing already
@@ -127,17 +129,24 @@ def echo(ws, language):
             telemetry.interact(input=input_selector, language=language, audio_type=selected_audio_type,audio_name=audio_url)
             if audio_url:
                 chunks = get_chunks(input_selector, language, audio_url)
+                counter = 1
                 for chunk in chunks:
                     chunk["stream_sid"] = session_id
                     try:
                         ws.send(json.dumps(chunk))
                     except:
                         pass
-            else:
-                pass
 
-            # mark_event = {"event":"mark","sequence_number": int(request_payload['sequence_number']) + 1,"stream_sid":request_payload['stream_sid'],"mark":{"name":"reply complete"}}
+                    counter += 1
+                time.sleep(0.300)
+                mark_event = {"event":"mark", "sequence_number": counter, "stream_sid": session_id,"mark":{"name":"audio_complete"}}
+                ws.send(json.dumps(mark_event))
+                push_telemetry_events(telemetry)
+                is_audio_sent = True
+        elif event == "mark":
+            # mark_event = {"event":"stop", "sequence_number": len(chunks) + 1, "stream_sid": session_id,"mark":{"name":"audio_complete"}}
             # ws.send(json.dumps(mark_event))
+            pass
         elif event == "stop":
-            push_telemetry_events(telemetry)
+            # push_telemetry_events(telemetry)
             print("inside stop")
