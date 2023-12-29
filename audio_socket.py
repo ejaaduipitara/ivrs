@@ -10,6 +10,7 @@ import json
 import base64
 import subprocess
 import time
+import hashlib
 
 from urllib import request as downloader
 from pathlib import Path
@@ -110,7 +111,9 @@ def echo(ws, language):
         event = request_payload['event']
 
         if event == 'start':
-            telemetry = Telemetry(request_payload['stream_sid'], request_payload['start']['from'])
+            did = hashlib.md5(request_payload['start']['from'].encode()).hexdigest()
+            telemetry = Telemetry(request_payload['stream_sid'], did)
+            request_payload['start']['from'] = did
             telemetry.start(request_payload['start'])
         elif event == "media":
             # chunk = get_payload(request)
