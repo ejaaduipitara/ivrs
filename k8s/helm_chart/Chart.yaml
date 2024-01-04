@@ -1,0 +1,4 @@
+apiVersion: v2
+name: ivrs-bot-app
+description: A Helm chart for ivrs-bot application
+version: 0.1.0

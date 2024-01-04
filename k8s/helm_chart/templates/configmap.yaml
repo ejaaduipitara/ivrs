@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-config
+data:
+  IVRS_CONFIG_URL: "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/ivrs_config.json"
+  TELEMETRY_API_URL: ""
+  ENV: "dev"
