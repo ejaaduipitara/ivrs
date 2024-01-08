@@ -2,7 +2,7 @@ from pydub import AudioSegment
 from pydub.utils import make_chunks
 from flask import Blueprint
 from datetime import datetime
-from urllib.parse import parse_qs
+from urllib import parse
 from telemetry import Telemetry
 
 import os
@@ -135,6 +135,7 @@ def echo(ws, language):
             telemetry.interact(input=input_selector, language=language, audio_type=selected_audio_type,audio_name=audio_url)
 
             if audio_url:
+                audio_url = audio_url.replace(" ", "%20");
                 chunks = get_chunks(audio_key, audio_url)
                 counter = 1
                 for chunk in chunks:
