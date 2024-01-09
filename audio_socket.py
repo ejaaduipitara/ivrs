@@ -29,6 +29,9 @@ def get_audio(audio_key):
     encoding = webURL.info().get_content_charset('utf-8')
     config = json.loads(data.decode(encoding))
 
+    if audio_key not in config:
+        return None
+
     no_of_audios = len(config[audio_key])
 
     day_of_year = datetime.today().timetuple().tm_yday
@@ -122,13 +125,15 @@ def echo(ws, language):
             selected_audio_type = audio_types[input_selector] if input_selector < len(audio_types) else None
 
             audio_key = f"{selected_audio_type}:{language}"
+            audio_url = None
             if selected_audio_type:
                 audio_url = get_audio(audio_key)
 
                 if not audio_url:
                     audio_key = f"{selected_audio_type}:{language}:empty"
                     audio_url = get_audio(audio_key)
-            else:
+
+            if not audio_url:
                 audio_key = f"invalid_option:{language}"
                 audio_url = get_audio(audio_key)
 
