@@ -1,5 +1,16 @@
 # MyJP IVRS Bot
 
+## Steps to prerequisites:
+
+### Step 1
+Install python 3.11
+
+### Step 2
+Install dependency libraries with below command
+```
+pip install -r requirements.txt
+```
+
 ## Steps To Upload audio files to cloud
 
 ### Step 1
