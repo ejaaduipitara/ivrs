@@ -1,25 +1,21 @@
 {
-  "story:english":[
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/English/Fur-Feather-Africa.mp3",
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/English/Windswept.mp3"
+  "song:english": [
+    "https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjp-ivrs/audio/song/English/100-The%20Swing.mp3"
   ],
-  "rhyme:english":[
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/rhyme/English/rabbit.m4a"
+  "song:hindi": [
+    "https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjp-ivrs/audio/song/Hindi/39-Track%208%20Hindi%20Poem%20Rhymes%20for%20eJadui%20Pitara%20Pd.mp3"
   ],
-  "riddle:english":[
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/riddle/riddle.mp3"
+  "story:english": [
+    "https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjp-ivrs/audio/story/English/1-Birbal%20finds%20the%20thief.mp3",
+    "https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjp-ivrs/audio/story/English/10-Goose%20with%20the%20golden%20egg.mp3"
   ],
-  "story:hindi":[
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/Hindi/bhediyabakri.mp3",
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/Hindi/pakshiparakh.mp3",
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/story/Hindi/darpokkharghosh.mp3"
+  "story:hindi:empty": [
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/invalid_option_english.wav"
   ],
-  "rhyme:hindi":[
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/rhyme/Hindi/hathiraja.m4a",
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/rhyme/Hindi/janmashtami.m4a",
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/rhyme/Hindi/words.m4a"
+  "invalid_option:english": [
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/invalid_option_english.wav"
   ],
-  "riddle:hindi":[
-    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/riddle/riddle.mp3"
+  "invalid_option:hindi": [
+    "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/invalid_option_english.wav"
   ]
 }

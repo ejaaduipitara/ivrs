@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 ### Step 1
 
-Get the audio files and place the audio files in the `upload_files` folder
+Get the audio files and place the audio files in the `drive-files` folder
 
 ### Step 2
 
