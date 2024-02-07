@@ -1,5 +1,5 @@
 const { v1: uuidv1 } = require('uuid');
-const request = require('axios');
+const axios = require('axios');
 const fs = require('fs');
 
 module.exports = class Telemetry {
@@ -70,22 +70,15 @@ module.exports = class Telemetry {
         const data = JSON.stringify({ "events": this.events });
         let telemetry_synced = false;
 
-        if (process.env.TELEMETRY_API_URL && !!process.env.TELEMETRY_API_URL) {
-            request({
-                url: process.env.TELEMETRY_API_URL,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: data
-            }, (error, response, body) => {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log(body);
+        if (!!process.env.TELEMETRY_API_URL) {
+            axios.post(process.env.TELEMETRY_API_URL, { "events": this.events }, {"headers":{"Content-Type":"application/json"}})
+                .then(function (response) {
                     telemetry_synced = true;
-                }
-            });
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
 
         // if (!telemetry_synced) {
