@@ -4,7 +4,7 @@ const fs = require('fs');
 
 module.exports = class Telemetry {
     constructor(session_id, did) {
-        fs.appendFileSync('telemetry-log.log', '', 'utf-8');
+        // fs.appendFileSync('telemetry-log.log', '', 'utf-8');
         
         this.events = [];
         this.session_id = session_id;
@@ -88,9 +88,9 @@ module.exports = class Telemetry {
             });
         }
 
-        if (!telemetry_synced) {
-            fs.appendFileSync('telemetry-log.log', `Telemetry events :: ${this.session_id} :: ${data}\n`, 'utf-8');
-        }
+        // if (!telemetry_synced) {
+        //     fs.appendFileSync('telemetry-log.log', `Telemetry events :: ${this.session_id} :: ${data}\n`, 'utf-8');
+        // }
 
         this.events = [];
     }
