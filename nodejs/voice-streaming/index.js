@@ -56,6 +56,8 @@ app.post('/media', async (req, res) => {
   var did = crypto.createHash('md5').update(req.body.caller_id_number).digest('hex');
   let telemetry = new Telemetry(sessionId, did)
 
+  console.log(`Session started: ${sessionId}`)
+
   let userInputFlow = req.body.call_flow
   const dtmfObj = userInputFlow.pop()
   const languageObj = userInputFlow.pop()
@@ -92,7 +94,7 @@ app.post('/media', async (req, res) => {
 
   telemetry.end()
   telemetry.push()
-
+  console.log(`${sessionId} :: response :: ${JSON.stringify(resultObj)}`)
   res.send(resultObj);
 })
 
