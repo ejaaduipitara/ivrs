@@ -46,6 +46,10 @@ async function getAudio(audioKey) {
   }
 }
 
+app.get('/health', async (req, res) => {
+  res.send({"status":"success","healthy":true  });
+})
+
 
 app.post('/media', async (req, res) => {
   let sessionId = req.body.call_id
