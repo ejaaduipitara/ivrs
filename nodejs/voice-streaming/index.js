@@ -66,6 +66,7 @@ app.post('/media', async (req, res) => {
   language = languageObj.name.trim().toLowerCase()
   audioKey = `${category}:${language}`
   audioUrl = await getAudio(audioKey)
+  console.log(`${sessionId} :: audioKey :: ${audioKey}`)
 
   if(!audioUrl) {
     audioKey = `${audioKey}:empty`
