@@ -62,7 +62,7 @@ app.post('/media', async (req, res) => {
   const dtmfObj = userInputFlow.pop()
   const languageObj = userInputFlow.pop()
   
-  category = CATEGORIES[parseInt(dtmfObj.input)]
+  category = CATEGORIES[parseInt(dtmfObj.input) - 1]
   language = languageObj.name.trim().toLowerCase()
   audioKey = `${category}:${language}`
   audioUrl = await getAudio(audioKey)
