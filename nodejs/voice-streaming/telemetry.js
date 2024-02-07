@@ -74,10 +74,10 @@ module.exports = class Telemetry {
             axios.post(process.env.TELEMETRY_API_URL, { "events": this.events }, {"headers":{"Content-Type":"application/json"}})
                 .then(function (response) {
                     telemetry_synced = true;
-                    console.log(response);
+                    console.log(`${this.session_id} :: telemetry sync success`)
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.log(`${this.session_id} :: telemetry sync failed`)
                 });
         }
 

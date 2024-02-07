@@ -21,8 +21,7 @@ function getDayOfYear(date) {
 }
 
 async function getAudio(audioKey) {
-  // const urlData = process.env.IVRS_CONFIG_URL;
-  const urlData = "https://objectstorage.ap-hyderabad-1.oraclecloud.com/n/ax2cel5zyviy/b/sbdjp-ivrs/o/audio/ivrs_config.json"
+  const urlData = process.env.IVRS_CONFIG_URL;
 
   try {
     getDayOfYear(new Date())
