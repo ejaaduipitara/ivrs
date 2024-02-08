@@ -1,91 +1,103 @@
-const { WebSocket, WebSocketServer } = require('ws');
-const http = require('http');
-const uuidv4 = require('uuid').v4;
-const fs = require('fs');
+const express = require('express')
+const crypto = require('crypto');
+const bodyParser = require('body-parser')
 
-// Create an HTTP server and a WebSocket server
-const server = http.createServer();
-const wsServer = new WebSocketServer({ server: server, path: '/media' });
-const port = 8000;
+const axios = require('axios')
+const Telemetry = require('./telemetry')
+const app = express()
 
-// Start the WebSocket server
-server.listen(port, () => {
-  console.log(`WebSocket server is running on port ${port}`);
-});
+const port = 8000
 
-// Maintain active connections and users
-const clients = {};
-const users = {};
-let userActivity = [];
-let audioStreamEvents = {};
-// let globalStream = fs.createWriteStream('all-requests.log',{ flags: 'w'});
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
-// Handle new client connections
-wsServer.on('connection', function handleNewConnection(ws) {
-  const userId = uuidv4();
-  console.log('Received a new connection');
+const CATEGORIES = ["story", "song", "question"]
 
-  clients[userId] = ws;
-  console.log(`${userId} connected.`);
+function getDayOfYear(date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date - start;
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
 
-  ws.on('message', (message) => processReceivedMessage(message, userId, ws));
-  ws.on('close', () => handleClientDisconnection(userId));
-});
+async function getAudio(audioKey) {
+  const urlData = process.env.IVRS_CONFIG_URL;
 
+  try {
+    getDayOfYear(new Date())
+    const response = await axios.get(urlData);
+    config = response.data
 
-// Handle incoming messages from clients
-function processReceivedMessage(message, userId, ws) {
-    const dataFromClient = JSON.parse(message.toString());
-    users[userId] = dataFromClient;
-    const event = dataFromClient.event;
-    if (event === 'connected') {
-        console.log(`${userId} connected for audio streaming.`);
-    } else if (event === 'start') {
-        const sId = dataFromClient.start.stream_sid;
-        console.log(`${userId} starting the streaming using ${sId}.`);
-        audioStreamEvents[userId] = [];
-    } else if (event === 'media') {
-        audioStreamEvents[userId].push(message);
-    } else if (event === 'stop') {
-        console.log(`${userId} stop with sequence_number ${dataFromClient.sequence_number}.`);
-    } else if (event === 'mark') {
-        console.log(`${userId} mark with sequence_number ${dataFromClient.sequence_number}.`);
-    } else if (event === 'dtmf') {
-        const dtmfInput = dataFromClient.dtmf.digit;
-        console.log(`${userId} dtmf with sequence_number ${dataFromClient.sequence_number} by pressing ${dtmfInput}.`);
-        if (dtmfInput == "9") {
-            const stream_sid = dataFromClient.stream_sid;
-            const markSeq = parseInt(dataFromClient.sequence_number) + 1;
-            replayAudio(userId);
-        } else {
-            console.log("dtmf message is " + dtmfInput + " so, not replaying the audio.");
-        }
-    } else {
-        console.log("message with unknown event type: " + JSON.stringify(dataFromClient));
+    if (!(audioKey in config)) {
+        return null;
     }
 
+    const numberOfAudios = config[audioKey].length;
+    const dayOfYear = getDayOfYear(new Date())
+    const modDayNo = dayOfYear % numberOfAudios;
+
+    const audioIndex = modDayNo === 0 ? numberOfAudios : modDayNo;
+
+    return config[audioKey][audioIndex - 1];
+  } catch (error) {
+    console.error('Error:', error.message);
+    return null;
+  }
 }
 
-function replayAudio(userId) {
-    for(const index in audioStreamEvents[userId]) {
-        const msg = audioStreamEvents[userId][index];
-        ws.send(msg);
+app.get('/health', async (req, res) => {
+  res.send({"status":"success","healthy":true  });
+})
+
+
+app.post('/media', async (req, res) => {
+  let sessionId = req.body.call_id
+  var did = crypto.createHash('md5').update(req.body.caller_id_number).digest('hex');
+  let telemetry = new Telemetry(sessionId, did)
+
+  console.log(`Session started: ${sessionId}`)
+
+  let userInputFlow = req.body.call_flow
+  const dtmfObj = userInputFlow.pop()
+  const languageObj = userInputFlow.pop()
+  
+  category = CATEGORIES[parseInt(dtmfObj.input) - 1]
+  language = languageObj.name.trim().toLowerCase()
+  audioKey = `${category}:${language}`
+  audioUrl = await getAudio(audioKey)
+  console.log(`${sessionId} :: audioKey :: ${audioKey}`)
+
+  if(!audioUrl) {
+    audioKey = `${audioKey}:empty`
+    audioUrl = await getAudio(audioKey)
+  }
+
+  if(!audioUrl) {
+    audioKey = `invalid_option:${language}`
+    audioUrl = await getAudio(audioKey)
+  }
+
+  resultObj = [{
+    "recording": {
+      "type": "url",
+      "data": audioUrl
     }
-    let markEvent = {"event":"mark","sequence_number":markSeq,"stream_sid":stream_sid,"mark":{"name":"reply complete"}};
-    let markStr = JSON.stringify(markEvent);
-    console.log("Mark event: " + markStr);
-    ws.send(Buffer.from(markStr));
-    audioStreamEvents[userId] = [];
-}
+  }]
 
-// Handle disconnection of a client
-function handleClientDisconnection(userId) {
-    console.log(`${userId} disconnected.`);
-    const json = {};
-    const username = users[userId]?.username || userId;
-    userActivity.push(`${username} left the editor`);
-    json.data = { users, userActivity };
-    delete clients[userId];
-    delete users[userId];
-    console.log("User activity: " + JSON.stringify(json));
-}
+  startEdata = {
+    "input": parseInt(dtmfObj.input),
+    "language": language,
+    "audio_type": category,
+    "audio_name": audioUrl
+  }
+  telemetry.start(startEdata)
+
+  telemetry.end()
+  telemetry.push()
+  console.log(`${sessionId} :: response :: ${JSON.stringify(resultObj)}`)
+  res.send(resultObj);
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})

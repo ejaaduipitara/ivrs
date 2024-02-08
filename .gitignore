@@ -1,10 +1,13 @@
 **/node_modules
+**/bruno
 venv/**
 **/.DS_Store
 output.wav
 .vscode
 **/__pycache__
 temp_audio_files/**
+drive-files/**
 temp_converted_files/**
 !temp_audio_files/.keep
 !temp_converted_files/.keep
+!drive-files/.keep
