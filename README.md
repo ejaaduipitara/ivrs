@@ -26,7 +26,7 @@ region_name: ""
 aws_secret_access_key: ""
 aws_access_key_id: ""
 endpoint_url: ""
-
+bucket: ""
 ```
 
 ### Step 3
