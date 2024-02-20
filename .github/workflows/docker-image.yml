@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Exotel IVRS Bot - Build
 
 on:
   push:

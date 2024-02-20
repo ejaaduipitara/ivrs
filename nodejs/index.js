@@ -11,7 +11,8 @@ const port = 8000
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
-const CATEGORIES = ["story", "song", "question"]
+const CATEGORIES = ["stories", "songs", "riddles","rhymes","activities"]
+
 
 function getDayOfYear(date) {
   const start = new Date(date.getFullYear(), 0, 0);
