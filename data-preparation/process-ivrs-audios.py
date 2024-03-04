@@ -39,7 +39,7 @@ def check_file_existence(file_path):
 def download_audio_files(source_file_path):
     downloaded_files = {}
     # Open the CSV file
-    with open(source_file_path) as csvfile:
+    with open(source_file_path, encoding="utf8") as csvfile:
         files_list = [d for d in csv.DictReader(csvfile)]
         drive = get_drive()
         # for file in files_list:
@@ -61,7 +61,7 @@ def download_audio_files(source_file_path):
             wr.writerows(files_list)
 
 def get_s3_object_and_bucket():
-    with open("config.yaml", "r") as stream:
+    with open("config.yaml", "r", encoding="utf8") as stream:
         CONFIG = yaml.safe_load(stream)
         s3 = boto3.resource(
             's3',
